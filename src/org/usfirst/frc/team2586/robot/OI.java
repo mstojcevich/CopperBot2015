@@ -1,6 +1,11 @@
 package org.usfirst.frc.team2586.robot;
 
+import org.usfirst.frc.team2586.robot.commands.CloseClaw;
+import org.usfirst.frc.team2586.robot.commands.OpenClaw;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -12,6 +17,16 @@ public class OI {
 
 	private final Joystick primary = new Joystick(RobotMap.JOYSTICK),
 			secondary = new Joystick(RobotMap.XBOX_CONTROLLER);
+		
+	private final Button closeClawBtn, openClawBtn;
+	
+	public OI(Robot r) {		
+		this.openClawBtn = new JoystickButton(primary, PrimaryJoystick.OPEN_CLAW_BTN);
+		this.openClawBtn.whenPressed(new OpenClaw(r.getClaw()));
+		
+		this.closeClawBtn = new JoystickButton(primary, PrimaryJoystick.CLOSE_CLAW_BTN);
+		this.closeClawBtn.whenPressed(new CloseClaw(r.getClaw()));
+	}
 
 	// TODO factor rotate into left and right speeds
 

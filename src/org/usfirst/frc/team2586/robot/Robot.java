@@ -2,6 +2,7 @@
 package org.usfirst.frc.team2586.robot;
 
 import org.usfirst.frc.team2586.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team2586.robot.subsystems.Claw;
 import org.usfirst.frc.team2586.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -16,9 +17,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * Manages the basic subsystems and commands of the robot.
  */
 public class Robot extends IterativeRobot {
-
-	public static final DriveTrain driveTrain = new DriveTrain();
+	
 	public static OI oi;
+
+	public static DriveTrain driveTrain;
+	private static Claw claw;
 
 	private Command autonomousCommand;
 	private Command teleopDrive;
@@ -28,7 +31,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		Robot.oi = new OI();
+		Robot.oi = new OI(this);
+		
+		Robot.driveTrain = new DriveTrain();
+		Robot.claw = new Claw();
 
 		this.teleopDrive = new DriveWithJoystick(this);
 	}
@@ -98,6 +104,10 @@ public class Robot extends IterativeRobot {
 
 	public DriveTrain getDriveTrain() {
 		return Robot.driveTrain;
+	}
+	
+	public Claw getClaw() {
+		return Robot.claw;
 	}
 
 	public OI getControls() {
