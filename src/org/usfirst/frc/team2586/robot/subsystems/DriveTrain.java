@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Controls the drive motors of the robots
+ * Controls the drive motors of the robot
  */
 public class DriveTrain extends Subsystem {
 	
