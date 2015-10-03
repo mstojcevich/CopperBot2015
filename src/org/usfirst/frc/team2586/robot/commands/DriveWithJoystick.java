@@ -21,6 +21,7 @@ public class DriveWithJoystick extends Command {
 	}
 
 	// Called just before the Command runs the first time
+	@Override
 	protected void initialize() {
 	}
 
@@ -38,12 +39,14 @@ public class DriveWithJoystick extends Command {
 	}
 
 	// Called after the command finishes
+	@Override
 	protected void end() {
 		this.drivetrain.teleDrive(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 		this.drivetrain.teleDrive(0, 0);
 	}
