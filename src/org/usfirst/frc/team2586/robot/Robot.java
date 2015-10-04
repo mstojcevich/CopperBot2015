@@ -4,6 +4,7 @@ package org.usfirst.frc.team2586.robot;
 import org.usfirst.frc.team2586.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team2586.robot.subsystems.Claw;
 import org.usfirst.frc.team2586.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2586.robot.subsystems.Gyroscope;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,8 +21,9 @@ public class Robot extends IterativeRobot {
 	
 	public static OI oi;
 
-	public static DriveTrain driveTrain;
+	private static DriveTrain driveTrain;
 	private static Claw claw;
+	private static Gyroscope gyro;
 
 	private Command autonomousCommand;
 	private Command teleopDrive;
@@ -108,6 +110,10 @@ public class Robot extends IterativeRobot {
 	
 	public Claw getClaw() {
 		return Robot.claw;
+	}
+	
+	public Gyroscope getGyroscope() {
+		return Robot.gyro;
 	}
 
 	public OI getControls() {
