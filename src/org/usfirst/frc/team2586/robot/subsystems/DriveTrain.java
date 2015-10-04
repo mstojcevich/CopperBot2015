@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2586.robot.subsystems;
 
 import org.usfirst.frc.team2586.robot.RobotMap;
+import org.usfirst.frc.team2586.robot.misc.Builder;
+import org.usfirst.frc.team2586.robot.misc.NotCompletedException;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -31,68 +33,18 @@ public class DriveTrain extends Subsystem {
 	
 	/**
 	 * Create a DriveTrain using the default speed controller and encoder channels defined in RobotMap as Talons.
+	 * 
+	 * If you want to be more specific and use non-defaults, use DriveTrain.DriveTrainBuilder
 	 */
 	public DriveTrain() {
-		this(RobotMap.REAR_LEFT_DRIVE, RobotMap.REAR_RIGHT_DRIVE,
-				RobotMap.FRONT_LEFT_DRIVE, RobotMap.FRONT_RIGHT_DRIVE,
-				RobotMap.BACK_LEFT_ENCODER_A, RobotMap.BACK_RIGHT_ENCODER_A,
-				RobotMap.FRONT_LEFT_ENCODER_A, RobotMap.BACK_RIGHT_ENCODER_A);
-	}
-	
-	/**
-	 * Create a DriveTrain using the specified speed controller channels using Talons
-	 * 
-	 * Creates encoders using the encoder channels specified for the A channel and them + 1 for the B channel
-	 * 
-	 * @param rearLeft Channel for the rear left speed controller
-	 * @param rearRight Channel for the rear right speed controller
-	 * @param frontLeft Channel for the front left speed controller
-	 * @param frontRight Channel for the front right speed controller
-	 * 
-	 * @param rearLeftEnc Channel for the rear left encoder
-	 * @param rearRightEnc Channel for the rear right encoder
-	 * @param frontLeftEnc Channel for the front left encoder
-	 * @param frontRightEnc Channel for the front right encoder
-	 */
-	public DriveTrain(int rearLeft, int rearRight, 
-			int frontLeft, int frontRight,
-			int rearLeftEnc, int rearRightEnc,
-			int frontLeftEnc, int frontRightEnc) {
-		this(new Talon(rearLeft), new Talon(rearRight), 
-				new Talon(frontLeft), new Talon(frontRight),
-				new Encoder(rearLeftEnc, rearLeftEnc + 1), new Encoder(rearRightEnc, rearRightEnc + 1),
-				new Encoder(frontLeftEnc, frontLeftEnc + 1), new Encoder(frontRightEnc, frontRightEnc + 1));
-	}
-	
-	/**
-	 * Create a DriveTrain using the specified speed controller channels using Talons
-	 * 
-	 * Creates encoders using the encoder channels specified for the first channel and them + 1 for the second channel
-	 * 
-	 * @param rearLeft Channel for the rear left speed controller
-	 * @param rearRight Channel for the rear right speed controller
-	 * @param frontLeft Channel for the front left speed controller
-	 * @param frontRight Channel for the front right speed controller
-	 * 
-	 * @param rearLeftEncA Channel for the rear left encoder
-	 * @param rearLeftEncB Channel for the rear left encoder
-	 * @param rearRightEncA Channel for the rear right encoder
-	 * @param rearRightEncB Channel for the rear right encoder
-	 * @param frontLeftEncA Channel for the front left encoder
-	 * @param frontLeftEncB Channel for the front left encoder
-	 * @param frontRightEncA Channel for the front right encoder
-	 * @param frontRightEncB Channel for the front right encoder
-	 */
-	public DriveTrain(int rearLeft, int rearRight, 
-			int frontLeft, int frontRight,
-			int rearLeftEncA, int rearLeftEncB,
-			int rearRightEncA, int rearRightEncB,
-			int frontLeftEncA, int frontLeftEncB,
-			int frontRightEncA, int frontRightEncB) {
-		this(new Talon(rearLeft), new Talon(rearRight), 
-				new Talon(frontLeft), new Talon(frontRight),
-				new Encoder(rearLeftEncA, rearLeftEncB), new Encoder(rearRightEncA, rearRightEncB),
-				new Encoder(frontLeftEncA, frontLeftEncB), new Encoder(frontRightEncA, frontRightEncB));
+		this(
+				new Talon(RobotMap.REAR_LEFT_DRIVE), new Talon(RobotMap.REAR_RIGHT_DRIVE),
+				new Talon(RobotMap.FRONT_LEFT_DRIVE), new Talon(RobotMap.FRONT_RIGHT_DRIVE),
+				new Encoder(RobotMap.BACK_LEFT_ENCODER_A, RobotMap.BACK_LEFT_ENCODER_B), 
+				new Encoder(RobotMap.BACK_RIGHT_ENCODER_A, RobotMap.BACK_RIGHT_ENCODER_B),
+				new Encoder(RobotMap.FRONT_LEFT_ENCODER_A, RobotMap.FRONT_LEFT_ENCODER_B), 
+				new Encoder(RobotMap.FRONT_RIGHT_ENCODER_A, RobotMap.FRONT_RIGHT_ENCODER_B)
+				);
 	}
 	
 	/**
@@ -102,8 +54,13 @@ public class DriveTrain extends Subsystem {
 	 * @param rearRight Rear right speed controller
 	 * @param frontLeft Front left speed controller
 	 * @param frontRight Front right speed controller
+	 * 
+	 * @param rearLeftEnc Rear left encoder
+	 * @param rearRightEnc Rear right encoder
+	 * @param frontLeftEnc Front left encoder
+	 * @param frontRightEnc Front right encoder
 	 */
-	public DriveTrain(SpeedController rearLeft, SpeedController rearRight, 
+	private DriveTrain(SpeedController rearLeft, SpeedController rearRight, 
 			SpeedController frontLeft, SpeedController frontRight,
 			Encoder rearLeftEnc, Encoder rearRightEnc, 
 			Encoder frontLeftEnc, Encoder frontRightEnc) {
@@ -146,6 +103,90 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {}
+	
+	public static class DriveTrainBuilder implements Builder<DriveTrain> {
+
+		private SpeedController 
+				rearLeftSC,
+				rearRightSC,
+				frontLeftSC,
+				frontRightSC;
+
+		private Encoder
+				rearLeftEnc,
+				rearRightEnc,
+				frontLeftEnc,
+				frontRightEnc;
+		
+		@Override
+		public DriveTrain build() throws NotCompletedException {
+			// Make sure all speed controllers were set
+			if(rearLeftSC == null)
+				throw new NotCompletedException("Rear-left speed controller");
+			if(rearRightSC == null)
+				throw new NotCompletedException("Rear-right speed controller");
+			if(frontLeftSC == null)
+				throw new NotCompletedException("Front-left speed controller");
+			if(frontRightSC == null)
+				throw new NotCompletedException("Front-right speed controller");
+			
+			// Make sure all encoders were set
+			if(rearLeftEnc == null)
+				throw new NotCompletedException("Rear-left encoder");
+			if(rearRightEnc == null)
+				throw new NotCompletedException("Rear-right encoder");
+			if(frontLeftEnc == null)
+				throw new NotCompletedException("Front-left encoder");
+			if(frontRightEnc == null)
+				throw new NotCompletedException("Front-right encoder");
+			
+			return new DriveTrain(
+					rearLeftSC, rearRightSC, frontLeftSC, frontRightSC,
+					rearLeftEnc, rearRightEnc, frontLeftEnc, frontRightEnc
+					);
+		}
+		
+		public DriveTrainBuilder setFrontLeftSC(SpeedController sc) {
+			this.frontLeftSC = sc;
+			return this;
+		}
+		
+		public DriveTrainBuilder setFrontRightSC(SpeedController sc) {
+			this.frontRightSC = sc;
+			return this;
+		}
+		
+		public DriveTrainBuilder setRearLeftSC(SpeedController sc) {
+			this.rearLeftSC = sc;
+			return this;
+		}
+		
+		public DriveTrainBuilder setRearRightSC(SpeedController sc) {
+			this.rearRightSC = sc;
+			return this;
+		}
+		
+		public DriveTrainBuilder setFrontLeftEnc(Encoder e) {
+			this.frontLeftEnc = e;
+			return this;
+		}
+		
+		public DriveTrainBuilder setFrontRightEnc(Encoder e) {
+			this.frontRightEnc = e;
+			return this;
+		}
+		
+		public DriveTrainBuilder setRearLeftEnc(Encoder e) {
+			this.rearLeftEnc = e;
+			return this;
+		}
+		
+		public DriveTrainBuilder setRearRightEnc(Encoder e) {
+			this.rearRightEnc = e;
+			return this;
+		}
+		
+	}
 	
 }
 
