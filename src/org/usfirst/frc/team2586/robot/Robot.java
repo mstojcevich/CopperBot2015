@@ -2,6 +2,8 @@
 package org.usfirst.frc.team2586.robot;
 
 import org.usfirst.frc.team2586.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team2586.robot.commands.NoOp;
+import org.usfirst.frc.team2586.robot.commands.auton.CloseAndLift;
 import org.usfirst.frc.team2586.robot.subsystems.Claw;
 import org.usfirst.frc.team2586.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2586.robot.subsystems.Gyroscope;
@@ -11,6 +13,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Then entrypoint of the robot. Everything that is called automatically happens
@@ -27,8 +31,10 @@ public class Robot extends IterativeRobot {
 	private static Gyroscope gyro;
 	private static Lift lift;
 
-	private Command autonomousCommand;
 	private Command teleopDrive;
+	private Command autonCommand;
+	
+	private SendableChooser autonChooser;
 
 	/**
 	 * Called when the robot starts up. Initialize stuff here.
@@ -41,6 +47,12 @@ public class Robot extends IterativeRobot {
 		Robot.claw = new Claw();
 
 		this.teleopDrive = new DriveWithJoystick(this);
+		
+		// Add auton modes to dashboard
+		this.autonChooser = new SendableChooser();
+		autonChooser.addDefault("Do nothing", new NoOp());
+		autonChooser.addObject("Close and lift", new CloseAndLift(this));
+		SmartDashboard.putData("Auton Chooser", autonChooser);
 	}
 
 	/**
@@ -56,9 +68,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		this.autonCommand = (Command) autonChooser.getSelected();
+			autonCommand.start();
 	}
 
 	/**
@@ -75,8 +86,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		// Stop auton when teleop starts
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		if (autonCommand != null)
+			autonCommand.cancel();
 
 		this.teleopDrive.start();
 	}
