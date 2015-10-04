@@ -23,10 +23,20 @@ public class Claw extends Subsystem {
 	 * @param closeChannel Relay channel used to close the claw
 	 */
 	public Claw(int openChannel, int closeChannel) {
+		this(new Relay(openChannel), new Relay(closeChannel));
+	}
+	
+	/**
+	 * Creates a claw using the specified relays
+	 * 
+	 * @param open Relay to use to open the claw
+	 * @param close Relay to use to close the claw
+	 */
+	public Claw(Relay open, Relay close) {
 		super("Claw");
 		
-		this.openClaw = new Relay(openChannel);
-		this.closeClaw = new Relay(closeChannel);
+		this.openClaw = open;
+		this.closeClaw = close;
 	}
 	
 	/**
