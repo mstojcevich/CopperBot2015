@@ -2,10 +2,7 @@ package org.usfirst.frc.team2586.robot.commands;
 
 import org.usfirst.frc.team2586.robot.subsystems.Claw;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-// TODO create TimedCommand abstract superclass to use for all commands with a duration
-public class OpenClaw extends Command {
+public class OpenClaw extends TimedCommand {
 
 	// How long, in seconds, it takes to open the claw
 	private static final double DURATION = 0.5;
@@ -13,7 +10,7 @@ public class OpenClaw extends Command {
 	private Claw claw;
 
 	public OpenClaw(Claw claw) {
-		super("Open Claw");
+		super("Open Claw", DURATION);
 		
 		this.claw = claw;
 	}
@@ -25,11 +22,6 @@ public class OpenClaw extends Command {
 
 	@Override
 	protected void execute() {
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return this.timeSinceInitialized() > DURATION;
 	}
 
 	@Override

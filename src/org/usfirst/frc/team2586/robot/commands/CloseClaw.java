@@ -2,9 +2,7 @@ package org.usfirst.frc.team2586.robot.commands;
 
 import org.usfirst.frc.team2586.robot.subsystems.Claw;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class CloseClaw extends Command {
+public class CloseClaw extends TimedCommand {
 
 	// How long, in seconds, it takes to close the claw
 	private static final double DURATION = 2;
@@ -12,7 +10,7 @@ public class CloseClaw extends Command {
 	private Claw claw;
 
 	public CloseClaw(Claw claw) {
-		super("Close Claw");
+		super("Close Claw", DURATION);
 		
 		this.claw = claw;
 	}
@@ -24,11 +22,6 @@ public class CloseClaw extends Command {
 
 	@Override
 	protected void execute() {
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return this.timeSinceInitialized() > DURATION;
 	}
 
 	@Override
