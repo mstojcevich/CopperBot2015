@@ -4,6 +4,7 @@ package org.usfirst.frc.team2586.robot;
 import org.usfirst.frc.team2586.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team2586.robot.commands.NoOp;
 import org.usfirst.frc.team2586.robot.commands.auton.CloseAndLift;
+import org.usfirst.frc.team2586.robot.subsystems.AxisCamera;
 import org.usfirst.frc.team2586.robot.subsystems.Claw;
 import org.usfirst.frc.team2586.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2586.robot.subsystems.Gyroscope;
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
 	private static Claw claw;
 	private static Gyroscope gyro;
 	private static Lift lift;
+	private static AxisCamera camera;
 
 	private Command teleopDrive;
 	private Command autonCommand;
@@ -45,6 +47,9 @@ public class Robot extends IterativeRobot {
 		
 		Robot.driveTrain = new DriveTrain();
 		Robot.claw = new Claw();
+		
+		Robot.camera = new AxisCamera();
+		camera.startAutoCapture(50);
 
 		this.teleopDrive = new DriveWithJoystick(this);
 		
