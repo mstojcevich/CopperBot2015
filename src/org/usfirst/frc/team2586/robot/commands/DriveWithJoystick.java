@@ -15,6 +15,8 @@ public class DriveWithJoystick extends Command {
 	private final OI controls;
 
 	public DriveWithJoystick(Robot r) {
+		super("Drive with joystick");
+		
 		this.drivetrain = r.getDriveTrain();
 		this.controls = r.getControls();
 		this.requires(drivetrain);

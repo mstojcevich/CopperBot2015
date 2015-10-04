@@ -13,6 +13,8 @@ public class OpenClaw extends Command {
 	private Claw claw;
 
 	public OpenClaw(Claw claw) {
+		super("Open Claw");
+		
 		this.claw = claw;
 	}
 

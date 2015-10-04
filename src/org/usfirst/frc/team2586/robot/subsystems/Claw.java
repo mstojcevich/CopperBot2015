@@ -10,6 +10,10 @@ public class Claw extends Subsystem {
 	private Relay openClaw = new Relay(RobotMap.OPEN_CLAW_RELAY);
 	private Relay closeClaw = new Relay(RobotMap.CLOSE_CLAW_RELAY);
 	
+	public Claw() {
+		super("Claw");
+	}
+	
 	public void openClaw() {
 		closeClaw.set(Relay.Value.kOff);
 		openClaw.set(Relay.Value.kForward);

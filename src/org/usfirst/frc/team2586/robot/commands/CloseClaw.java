@@ -12,6 +12,8 @@ public class CloseClaw extends Command {
 	private Claw claw;
 
 	public CloseClaw(Claw claw) {
+		super("Close Claw");
+		
 		this.claw = claw;
 	}
 
