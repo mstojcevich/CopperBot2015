@@ -42,4 +42,10 @@ public class RobotMap {
 			OPEN_CLAW_RELAY		= 1,
 			CLOSE_CLAW_RELAY	= 2;
 	
+	// Camera servos
+	public static final int
+			CAM_X_SERVO		= 9,
+			CAM_Y_SERVO		= 8,
+			CAM_EYE_SERVO	= 7;
+	
 }
