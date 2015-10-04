@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Controls the drive motors of the robot
  */
 public class DriveTrain extends Subsystem {
-		
+
 	private final SpeedController 
-				leftRearDriveMotor,
-				leftFrontDriveMotor,
-				rightRearDriveMotor,
-				rightFrontDriveMotor;
+				rearLeftSC,
+				frontLeftSC,
+				rearRightSC,
+				frontRightSC;
 	
 	private final Encoder
 				rearLeftEncoder,
@@ -64,10 +64,10 @@ public class DriveTrain extends Subsystem {
 			Encoder frontLeftEnc, Encoder frontRightEnc) {
 		super("Drive Train");
 		
-		this.leftRearDriveMotor = rearLeft;
-		this.rightRearDriveMotor = rearRight;
-		this.leftFrontDriveMotor = frontLeft;
-		this.rightFrontDriveMotor = frontRight;
+		this.rearLeftSC = rearLeft;
+		this.rearRightSC = rearRight;
+		this.frontLeftSC = frontLeft;
+		this.frontRightSC = frontRight;
 		
 		this.rearLeftEncoder = rearLeftEnc;
 		this.rearRightEncoder = rearRightEnc;
@@ -75,8 +75,8 @@ public class DriveTrain extends Subsystem {
 		this.frontRightEncoder = frontRightEnc;
 		
 		this.drive = new RobotDrive(
-				leftFrontDriveMotor, leftRearDriveMotor,
-				rightFrontDriveMotor, rightRearDriveMotor
+				frontLeftSC, rearLeftSC,
+				frontRightSC, rearRightSC
 				);
 		
 		this.drive.setSafetyEnabled(true);
