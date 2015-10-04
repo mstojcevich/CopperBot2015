@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2586.robot;
 
-import org.usfirst.frc.team2586.robot.commands.CloseClaw;
-import org.usfirst.frc.team2586.robot.commands.OpenClaw;
+import org.usfirst.frc.team2586.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -18,7 +17,8 @@ public class OI {
 	private final Joystick primary = new Joystick(RobotMap.JOYSTICK),
 			secondary = new Joystick(RobotMap.XBOX_CONTROLLER);
 		
-	private final Button closeClawBtn, openClawBtn;
+	private final Button closeClawBtn, openClawBtn,
+			liftUpBtn, liftDownBtn;
 	
 	public OI(Robot r) {		
 		this.openClawBtn = new JoystickButton(primary, PrimaryJoystick.OPEN_CLAW_BTN);
@@ -26,6 +26,12 @@ public class OI {
 		
 		this.closeClawBtn = new JoystickButton(primary, PrimaryJoystick.CLOSE_CLAW_BTN);
 		this.closeClawBtn.whenPressed(new CloseClaw(r.getClaw()));
+		
+		this.liftUpBtn = new JoystickButton(primary, PrimaryJoystick.LIFT_UP_BTN);
+		this.liftUpBtn.whenPressed(new LiftLift(r.getLift()));
+		
+		this.liftDownBtn = new JoystickButton(primary, PrimaryJoystick.LIFT_DOWN_BTN);
+		this.liftDownBtn.whenPressed(new LowerLift(r.getLift()));
 	}
 
 	// TODO factor rotate into left and right speeds
