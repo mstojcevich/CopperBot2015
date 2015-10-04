@@ -14,9 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Controls the drive motors of the robot
  */
 public class DriveTrain extends Subsystem {
-	
-	// TODO DriveTrainBuilder to deal with the constructor mess?
-	
+		
 	private final SpeedController 
 				leftRearDriveMotor,
 				leftFrontDriveMotor,
